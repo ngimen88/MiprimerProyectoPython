@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static '/estilo.css' %}">
+
+	<title>Mundo PC</title>
+</head>
+
+<body>
+	<h1>Hola, somos Mundo PC. Te vamos a mostrar las opciones que tenemos a la venta!</h1>
+
+	<h2>Selecciona tus componentes</h2>
+	<form method="post">
+		{% csrf_token %}
+		<h2>Procesadores</h2>
+		{% for procesador in procesadores %}
+		<input type="radio" name="seleccion_procesador" value="{{ forloop.counter }}">
+		{{ procesador.nombre }} - {{ procesador.precio }} €<br>
+		{% endfor %}
+
+		<h2>Tarjetas Gráficas</h2>
+		{% for gpu in gpus %}
+		<input type="radio" name="seleccion_Gpu" value="{{ forloop.counter }}">
+		{{ gpu.nombre }} - {{ gpu.precio }} €<br>
+		{% endfor %}
+
+		<h2>Discos Duros</h2>
+		{% for disco in discos %}
+		<input type="radio" name="seleccion_discos" value="{{ forloop.counter }}">
+		{{ disco.nombre }} - {{ disco.precio }} €<br>
+		{% endfor %}
+
+		<h2>Memorias RAM</h2>
+		{% for ram in rams %}
+		<input type="radio" name="seleccion_ram" value="{{ forloop.counter }}">
+		{{ ram.nombre }} - {{ ram.precio }} €<br>
+		{% endfor %}
+
+		<br><br>
+		<input  class="glow-button" type="submit" value="Calcular Total">
+	</form>
+
+	{% if compra_procesador or compra_Gpu or compra_discos or compra_ram %}
+	<h2>Resumen de compra</h2>
+	<p>Procesador: {{ nombre_procesador }} - {{ compra_procesador }} €</p>
+	<p>Tarjeta Gráfica: {{ nombre_Gpu }} - {{ compra_Gpu }} €</p>
+	<p>Disco Duro: {{ nombre_discos }} - {{ compra_discos }} €</p>
+	<p>Memoria RAM: {{ nombre_ram }} - {{ compra_ram }} €</p>
+	<p>Total: {{ precio_total }} €</p>
+	<p>Total con IVA (21%): {{ precio_total_con_iva }} €</p>
+	<p>Precio con descuento (10%): {{ precio_con_descuento }} €</p>
+	<p>Cuotas mensuales (12 meses): {{ cuotas }} €</p>
+	{% endif %}
+
+</body>
+
+</html>
